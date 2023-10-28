@@ -1,5 +1,4 @@
-import React, {type FC, type PropsWithChildren} from "react";
-import {CourseGoalInterface} from "../App.tsx";
+import {type FC, type PropsWithChildren} from "react";
 
 /*interface CourseGoalProps {
     title: string,
@@ -11,7 +10,7 @@ import {CourseGoalInterface} from "../App.tsx";
 interface CourseGoalProps extends PropsWithChildren {
     title: string
     id: number
-    onDelete: (id: number) => (id: number, fn: React.Dispatch<React.SetStateAction<CourseGoalInterface[]>>) => void
+    onDelete: (id: number) => void
 }
 
 /*

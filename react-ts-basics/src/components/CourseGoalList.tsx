@@ -1,11 +1,11 @@
-import React, {type FC} from 'react';
+import {type FC} from 'react';
 import {type CourseGoalInterface} from "../App.tsx";
 import CourseGoal from "./CourseGoal.tsx";
 
 
 interface CourseGoalListProps {
     goals: CourseGoalInterface[]
-    onDeleteGoal: (id: number) => (id: number, fn: React.Dispatch<React.SetStateAction<CourseGoalInterface[]>>) => void
+    onDeleteGoal: (id: number) => void
 }
 
 const CourseGoalList: FC<CourseGoalListProps> = ({goals, onDeleteGoal}) => {

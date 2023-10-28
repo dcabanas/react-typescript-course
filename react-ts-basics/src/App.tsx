@@ -1,7 +1,8 @@
 import Header from "./components/Header.tsx";
 import goalsImg from './assets/goals.jpg'
-import React, {useState} from "react";
+import {useState} from "react";
 import CourseGoalList from "./components/CourseGoalList.tsx";
+import NewGoal from "./components/NewGoal.tsx";
 
 export interface CourseGoalInterface {
     title: string,
@@ -9,33 +10,34 @@ export interface CourseGoalInterface {
     id: number
 }
 
-const handleAddGoal = (setGoals: React.Dispatch<React.SetStateAction<CourseGoalInterface[]>>) => {
-    setGoals((prevGoals) => {
-        const newGoal: CourseGoalInterface = {
-            id: Math.random(),
-            title: 'Learn React + TS',
-            description: 'Learn it in depth!'
-        }
-        return [...prevGoals, newGoal]
-    })
-}
-
-const handleDeleteGoal = (id: number, setGoals: React.Dispatch<React.SetStateAction<CourseGoalInterface[]>>) => {
-    setGoals((prevGoals) => {
-        prevGoals.filter((goal) => goal.id !== id)
-    })
-}
-
 export default function App() {
     const [goals, setGoals] = useState<Array<CourseGoalInterface>>([])
+
+    const handleAddGoal = (goal: string, summary: string) => {
+        setGoals((prevGoals) => {
+            const newGoal: CourseGoalInterface = {
+                id: Math.random(),
+                title: goal,
+                description: summary
+            }
+            return [...prevGoals, newGoal]
+        })
+    }
+
+    const handleDeleteGoal = (id: number) => {
+        setGoals(prevGoals =>
+            prevGoals.filter((goal) => goal.id !== id)
+        )
+    }
+
 
     return (
         <main>
             <Header image={{src: goalsImg, alt: 'A list of goals'}}>
                 <h1>Your Course Goals</h1>
             </Header>
-            <button onClick={() => handleAddGoal(setGoals)}>Add Goal</button>
-            <CourseGoalList goals={goals} onDelete={(id: number) => handleDeleteGoal(id, setGoals)}/>
+            <NewGoal onAddGoal={handleAddGoal}/>
+            <CourseGoalList goals={goals} onDeleteGoal={handleDeleteGoal}/>
         </main>
     );
 }
