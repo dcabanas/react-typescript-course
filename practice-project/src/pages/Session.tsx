@@ -38,7 +38,7 @@ export default function SessionPage() {
     return (
         <main id="session-page">
             <Modal ref={modalRef} title="Book Session">
-                <Form fields={fields}/>
+                <Form fields={fields} loadedSession={loadedSession}/>
             </Modal>
             <article>
                 <header>

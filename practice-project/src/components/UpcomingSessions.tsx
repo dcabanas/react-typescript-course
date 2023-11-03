@@ -1,11 +1,7 @@
 import {useAppDispatch} from "../store/hooks.ts";
-import {cancelSession} from "../store/sessions-slice.ts";
+import {cancelSession, SessionItem} from "../store/sessions-slice.ts";
 
-export type BookedSession = {
-    id: string
-    title: string
-    summary: string
-}
+export type BookedSession = SessionItem
 
 type UpcomingSessionsProps = {
     bookedSessions: BookedSession[]
@@ -23,16 +19,24 @@ function UpcomingSessions({bookedSessions}: UpcomingSessionsProps) {
         <ul>
             {bookedSessions.length == 0 ? 'No upcoming sessions.'
                 :
-                bookedSessions.map(({id, title, summary}) =>
+                bookedSessions.map(({id, title, summary, date}) =>
                     <li key={id}>
                         <article className="upcoming-session">
                             <div>
                                 <h3>{title}</h3>
                                 <p>{summary}</p>
+                                <time dateTime={new Date(date).toISOString()}>
+                                    {new Date(date).toLocaleDateString('en-US', {
+                                        day: 'numeric',
+                                        month: 'short',
+                                        year: 'numeric',
+                                    })}
+                                </time>
                             </div>
                             <p className="actions">
                                 <button className="button button--text-only"
-                                        onClick={() => handleSessionCancel(id)}>Cancel
+                                        onClick={() => handleSessionCancel(id)}>
+                                    Cancel
                                 </button>
                             </p>
                         </article>

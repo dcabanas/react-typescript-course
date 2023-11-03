@@ -6,7 +6,7 @@ import {useAppSelector} from "../store/hooks.ts";
 
 function Header() {
     const modalRef = useRef<ModalHandle>(null);
-    const bookedSessions = useAppSelector()
+    const bookedSessions = useAppSelector(state => state.sessions.items)
 
     return (
         <header id="main-header">

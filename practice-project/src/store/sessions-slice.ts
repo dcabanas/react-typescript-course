@@ -4,6 +4,7 @@ export type SessionItem = {
     id: string
     title: string
     summary: string
+    date: string
 }
 
 type SessionState = {
@@ -19,8 +20,11 @@ export const sessionsSlice = createSlice({
     initialState,
     reducers: {
         bookSession: (state, action: PayloadAction<SessionItem>) => {
+            state.items.push(action.payload)
         },
         cancelSession: (state, action: PayloadAction<string>) => {
+            const foundIndex = state.items.findIndex(session => session.id == action.payload)
+            state.items.splice(foundIndex, 1)
         }
     }
 })

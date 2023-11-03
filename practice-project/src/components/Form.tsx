@@ -1,7 +1,7 @@
 import {type ModalHandle} from "./Modal.tsx";
 import {type FormEvent, useRef} from "react";
-import {useAppDispatch} from "../store/hooks.ts";
-import {bookSession} from "../store/sessions-slice.ts";
+import {useAppDispatch, useAppSelector} from "../store/hooks.ts";
+import {bookSession, type SessionItem} from "../store/sessions-slice.ts";
 
 type Field = {
     id: string,
@@ -12,27 +12,27 @@ type Field = {
 
 type FormProps = {
     fields: Field[]
+    loadedSession: SessionItem
 }
 
-function Form({fields}: FormProps) {
+function Form({fields, loadedSession}: FormProps) {
     const modalRef = useRef<ModalHandle>(null);
-    const formRef = useRef<HTMLFormElement>(null);
     const dispatch = useAppDispatch()
+    const bookedSessions = useAppSelector(state => state.sessions.items)
+
+    const alreadyBooked = bookedSessions.find(bs => bs.id == loadedSession.id) != undefined
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         console.log('SUBMIT')
         event.preventDefault()
 
-        const formData = new FormData(event.currentTarget);
-        const data = Object.fromEntries(formData);
-
-        dispatch(bookSession(data))
+        dispatch(bookSession(loadedSession))
         event.currentTarget?.reset()
     }
 
     return (
         <>
-            <form ref={formRef} onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 {fields.map(field =>
                     <div key={field.id} className="control">
                         <label htmlFor={field.id}>{field.label}</label>
@@ -40,8 +40,10 @@ function Form({fields}: FormProps) {
                     </div>
                 )}
                 <p className="actions">
-                    <button className="button button--text-only" onClick={modalRef.current?.close}>Cancel</button>
-                    <button type="submit" className="button">Book Session</button>
+                    <button type="button" className="button button--text-only"
+                            onClick={modalRef.current?.close}>Cancel
+                    </button>
+                    {! alreadyBooked && <button type="submit" className="button">Book Session</button>}
                 </p>
             </form>
         </>

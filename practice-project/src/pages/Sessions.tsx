@@ -1,11 +1,7 @@
 import {SESSIONS} from '../dummy-sessions.ts';
-import {useState} from "react";
 import Session from "../components/Session.tsx";
 
 export default function SessionsPage() {
-
-    const [sessions, _] = useState(SESSIONS)
-
     return (
         <main id="sessions-page">
             <header>
@@ -17,7 +13,7 @@ export default function SessionsPage() {
                 </p>
             </header>
             <ul id="sessions-list">
-                {sessions.map(({id, image, title, summary}) =>
+                {SESSIONS.map(({id, image, title, summary}) =>
                     <Session key={id} id={id} image={image} title={title} summary={summary}/>
                 )}
             </ul>

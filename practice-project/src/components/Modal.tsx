@@ -13,7 +13,7 @@ export type ModalHandle = {
 
 
 const Modal = forwardRef<ModalHandle, ModalProps>(function Modal({title, children}, ref) {
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(true)
 
     console.log(show)
 
@@ -33,10 +33,10 @@ const Modal = forwardRef<ModalHandle, ModalProps>(function Modal({title, childre
     return (
         show &&
         createPortal(
-            <dialog className="modal">
+            <div className="modal">
                 <h2>{title}</h2>
                 {children}
-            </dialog>,
+            </div>,
             document.getElementById("modal-root")!
         )
     );
